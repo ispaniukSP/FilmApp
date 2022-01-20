@@ -2,10 +2,10 @@ import React from 'react'
 import * as Styled from "./style"
 
 export default function AppButton(props) {
-    const {clickFunc, children} = props;
+    const {children, ...propsData} = props;
     
     return (
-        <Styled.AppButtonContent onClick={() => clickFunc()}>
+        <Styled.AppButtonContent {...propsData}>
             {children}
         </Styled.AppButtonContent>
     )

@@ -16,8 +16,16 @@ export default function HomePage() {
         }
     }, [films.filmsList])
     return (
-        <Styled.HomeContent>
-            {films.loader ? null : <FilmList />}
-        </Styled.HomeContent>
+        <Styled.HomeContentainer>
+            {films.loader ? null :(
+            <Styled.HomeContent>
+                <FilmList />
+                {/* <div>
+                    1 2 3 ... 20
+                </div> */}
+            </Styled.HomeContent>
+            
+            )}
+        </Styled.HomeContentainer>
     )
 }

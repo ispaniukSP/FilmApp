@@ -2,107 +2,135 @@ import React, { useState } from 'react'
 import * as Styled from './style'
 import Input from './../../components/Input/index';
 import AppButton from './../../components/Button/index';
+import FilmConfirm from './FilmConfirm';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { editSchema } from './schema';
+import { setNewValue } from '../../store/action/film/film.action';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function FilmEditContent(props) {
     const { closeToggle, info } = props
     const [confirmValue, setConfirmValue] = useState(false);
-
-    const [titleValue, setTitleValue] = useState(info.Title);
-    const [yearValue, setYearValue] = useState(info.Year);
-    const [runTimeValue, setRunTimeValue] = useState(info.Runtime);
-    const [genreValue, setGenreValue] = useState(info.Genre);
-    const [directorValue, setDirectorValue] = useState(info.Director);
+    const films = useSelector(state => state.films)
+    const dispatch = useDispatch();
 
     const closeModals = () => {
         closeToggle(); 
         setConfirmValue(false)
     }
 
-    const changedInformation = (e, setNewValue) => {
-        setNewValue(e.target.value)
+    const saveNewValue = () => {
+        console.log(confirmValue)
+        dispatch(setNewValue(films.filmsList, info.imdbID, confirmValue))
+        closeToggle()
+    }
+
+    const handleSubmit = (value) => {
+        setConfirmValue(value);
     }
 
     return (
         <>
-            {!confirmValue ? (<Styled.FilmEditModalContainer>
-                <Styled.FilmEditModalField>
-                    <Styled.StyledTitle>
-                        Title:
-                    </Styled.StyledTitle>
-                    <Input
-                        editValue={titleValue}
-                        valueChange={(e) => changedInformation(e, setTitleValue)}
-                    >
-                    </Input>
-                </Styled.FilmEditModalField>
-                <Styled.FilmEditModalField>
-                    <Styled.StyledTitle>
-                        Year:
-                    </Styled.StyledTitle>
-                    <Input
-                        editValue={yearValue}
-                        valueChange={(e) => changedInformation(e, setYearValue)}
-                    >
-                    </Input>
-                </Styled.FilmEditModalField>
-                <Styled.FilmEditModalField>
-                    <Styled.StyledTitle>
-                    Runtime:
-                    </Styled.StyledTitle>
-                    <Input
-                        editValue={runTimeValue}
-                        valueChange={(e) => changedInformation(e, setRunTimeValue)}
+            {!confirmValue ? (
+                <Formik
+                    initialValues={{
+                        title: info.Title,
+                        year: info.Year,
+                        runtime: info.Runtime,
+                        genre: info.Genre,
+                        director: info.Director,
+                    }}
+                    validationSchema={editSchema}
+                    onSubmit={(values) => {
+                        handleSubmit(values)
+                    }}
+                >
+                        <Form>
+                            <Styled.FilmEditModalContainer>
+                                <Styled.FilmEditModalField>
+                                    <Styled.FilmEditModalFieldContent>
+                                        <Styled.StyledTitle>
+                                            Title:
+                                        </Styled.StyledTitle>
+                                        <Field 
+                                            as={Input}
+                                            name="title"
+                                            type="text"
+                                        />
+                                    </Styled.FilmEditModalFieldContent>
+                                    <ErrorMessage name="title" component="div" />
+                                </Styled.FilmEditModalField>
+                                <Styled.FilmEditModalField>
+                                    <Styled.FilmEditModalFieldContent>
+                                        <Styled.StyledTitle>
+                                            Year:
+                                        </Styled.StyledTitle>
+                                        <Field
+                                            as={Input}
+                                            name="year"
+                                            type="number"
+                                        />
+                                    </Styled.FilmEditModalFieldContent>
+                                    <ErrorMessage name="year" component="div" />
+                                </Styled.FilmEditModalField>
+                                <Styled.FilmEditModalField>
+                                    <Styled.FilmEditModalFieldContent>
+                                        <Styled.StyledTitle>
+                                            Runtime:
+                                        </Styled.StyledTitle>
+                                        <Field   
+                                            as={Input}
+                                            name="runtime"
+                                            type="text"
+                                        />
+                                    </Styled.FilmEditModalFieldContent>
+                                    <ErrorMessage name="runtime" component="div" />
+                                </Styled.FilmEditModalField>
+                                <Styled.FilmEditModalField>
+                                    <Styled.FilmEditModalFieldContent>
+                                        <Styled.StyledTitle>
+                                            Genre:
+                                        </Styled.StyledTitle>
+                                        <Field
+                                            as={Input}
+                                            name="genre"
+                                            type="text"
+                                        />
+                                    </Styled.FilmEditModalFieldContent>
+                                    <ErrorMessage name="genre" component="div" />
 
-                    >
-                    </Input>
-                </Styled.FilmEditModalField>
-                <Styled.FilmEditModalField>
-                    <Styled.StyledTitle>
-                        Genre:
-                    </Styled.StyledTitle>
-                    <Input
-                        editValue={genreValue}
-                        valueChange={(e) => changedInformation(e, setGenreValue)}
-                
-                    >
-                    </Input>
-                </Styled.FilmEditModalField>
-                <Styled.FilmEditModalField>
-                    <Styled.StyledTitle>
-                        Director:
-                    </Styled.StyledTitle>
-                    <Input
-                        editValue={directorValue}
-                        valueChange={(e) => changedInformation(e, setDirectorValue)}
+                                </Styled.FilmEditModalField>
+                                <Styled.FilmEditModalField>
+                                    <Styled.FilmEditModalFieldContent>
+                                        <Styled.StyledTitle>
+                                            Director:
+                                        </Styled.StyledTitle>
+                                        <Field
+                                            as={Input}
+                                            name="director"
+                                            type="text"
+                                        />
+                                    </Styled.FilmEditModalFieldContent>
+                                    <ErrorMessage name="director" component="div" />
+                                </Styled.FilmEditModalField>
+                                <Styled.FilmEditModalButton>
+                                    <AppButton type="submit">
+                                        Confirm
+                                    </AppButton>
 
-                    >
-                    </Input>
-                </Styled.FilmEditModalField>
-
-                <Styled.FilmEditModalButton>
-                    <AppButton clickFunc={() => setConfirmValue(true)}>
-                        Confirm
-                    </AppButton>
-
-                    <AppButton clickFunc={() => closeModals()}>
-                        Cancel
-                    </AppButton>
-                </Styled.FilmEditModalButton>
-            </Styled.FilmEditModalContainer>) : (
-            <Styled.ConfirmContainer>
-                <Styled.ConfirmContent>
-                        Do you want to save changes?
-                </Styled.ConfirmContent>
-
-                <Styled.ConfirmButtons>
-                    <AppButton>
-                        Save
-                    </AppButton>
-                    <AppButton clickFunc={() => closeModals()}>
-                        Cancel
-                    </AppButton>
-                </Styled.ConfirmButtons>
-            </Styled.ConfirmContainer>
+                                    <AppButton onClick={() => closeModals()}>
+                                        Cancel
+                                    </AppButton>
+                                </Styled.FilmEditModalButton>
+                            </Styled.FilmEditModalContainer>
+                        </Form>
+                </Formik>
+            ) 
+            : 
+            (
+             <FilmConfirm confirmAction={() => saveNewValue()} closeModal={() => closeModals()}>
+                Do you want to save changes?
+             </FilmConfirm>
             )}
         </>
     )

@@ -1,11 +1,11 @@
 import axios from 'axios'
 
 export const filmPath = axios.create({
-    baseURL: "http://www.omdbapi.com",
+    baseURL: `${process.env.REACT_APP_FILM_URL}`,
     headers: {
         "Content-Type": "application/json",
     },
     params:{
-        apikey: "965b67f5",
+        apikey: `${process.env.REACT_APP_FILM_API}`,
     }
 })

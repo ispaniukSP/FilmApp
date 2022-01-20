@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AppButton from '../../components/Button'
 import { removeCurrentFilm, toggleDetailPopup, toggleEditPopup } from '../../store/action/film/film.action'
+import FilmConfirm from './FilmConfirm'
 import * as Styled from "./style"
 
 export default function FilmContent(props) {
@@ -23,20 +24,9 @@ export default function FilmContent(props) {
         <>
             { confirmValue ? 
                 (
-                    <Styled.ConfirmContainer>
-                        <Styled.ConfirmContent>
-                                Do you want to remove the film?
-                        </Styled.ConfirmContent>
-
-                        <Styled.ConfirmButtons>
-                            <AppButton clickFunc={() => removeFilm()}>
-                                Ok
-                            </AppButton>
-                            <AppButton clickFunc={() => closeModal()}>
-                                Cancel
-                            </AppButton>
-                        </Styled.ConfirmButtons>
-                    </Styled.ConfirmContainer>
+                    <FilmConfirm confirmAction={() => removeFilm()} closeModal={() => closeModal()}>
+                        Do you want to remove the film?
+                    </FilmConfirm>
                 )
                 :
                 (
@@ -86,10 +76,10 @@ export default function FilmContent(props) {
                         </Styled.FilmModalList>
 
                         <Styled.FilmModalButtons>
-                            <AppButton clickFunc={() => editModalFunc()}>
+                            <AppButton onClick={() => editModalFunc()}>
                                 Edit
                             </AppButton>
-                            <AppButton clickFunc={() => setConfirmValue(true)}>
+                            <AppButton onClick={() => setConfirmValue(true)}>
                                 Remove
                             </AppButton>
                         </Styled.FilmModalButtons>

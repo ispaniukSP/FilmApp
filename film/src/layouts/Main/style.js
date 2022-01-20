@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ColorVariable from "../../style";
 
 export const MainContent = styled.div`
     width: 100%;
@@ -6,6 +7,6 @@ export const MainContent = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #F4F4EF;
+    background-color: ${ColorVariable.primaryLight};
     position: relative;
 `

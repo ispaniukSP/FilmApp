@@ -14,9 +14,11 @@ export default function Header() {
             <Styled.HeaderLogoContainer>
                 <Styled.HeaderLogo src={Logo} />
             </Styled.HeaderLogoContainer>
-            <Input
-                valueChange={searchResult}
-            />
+            <Styled.InputContainer>
+                <Input
+                    onChange={searchResult}
+                />
+            </Styled.InputContainer>
         </Styled.HeaderContainer>
     )
 }

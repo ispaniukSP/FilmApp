@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ColorVariable from './../../style/index';
 
 export const ModalContainer = styled.div`
     position: absolute;
@@ -10,21 +11,21 @@ export const ModalContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #111222;
-    background-color: #111222c7;
+    color: ${ColorVariable.primaryDark};
+    background-color: ${ColorVariable.primaryDarkBG};
 `
 
 export const ModalContant = styled.div`
     margin: 0 15px;
     padding: 20px;
-    background: #ccc;
+    background: ${ColorVariable.grey};
     border-radius: 10px;
     position: relative;
 `
 
 export const CloseModal = styled.span`
     position: absolute;
-    top: 0;
-    right: 5px;
+    top: 5px;
+    right: 10px;
     cursor: pointer;
 `

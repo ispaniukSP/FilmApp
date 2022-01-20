@@ -1,5 +1,6 @@
 import filmsType from "./film.type"
 import { filmPath } from './../../../api/index';
+import transferUpperCase from "../../../utils/transferUpperCase";
 
 const getFilmsListRequest = () => ({
     type: filmsType.GET_LIST_FILMS_REQUEST,
@@ -71,4 +72,13 @@ export const removeCurrentFilm = (filmId, currentArr) => async dispatch => {
     dispatch(getFilmsListRequest());
     const setNewArr = currentArr.filter((film) => film.imdbID !== filmId);
     dispatch(getFilmsListSuccess(setNewArr))
+}
+
+export const setNewValue = (array, valueId, changesValue) => async dispatch => {
+    const getChangedValueIndex = array.findIndex((item) => item.imdbID === valueId);
+    const newArr = array;
+    for(const [key, value] of Object.entries(changesValue) ){
+        const newKey = transferUpperCase(key);
+        newArr[getChangedValueIndex][newKey] = value;
+    }
 }
