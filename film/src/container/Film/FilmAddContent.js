@@ -4,37 +4,31 @@ import Input from './../../components/Input/index';
 import AppButton from './../../components/Button/index';
 import FilmConfirm from './FilmConfirm';
 import { Field, Form, Formik } from 'formik';
-import { useSelector } from 'react-redux';
 import validation from '../../utils/Validation';
 
-const arrKeys = ['Title', 'Year', 'Director', 'Runtime', 'Genre']
+const arrKeys = ['Poster', 'Title', 'Year', 'Director', 'Runtime', 'Genre']
 
-export default function FilmEditContent(props) {
-    const { closeToggle, info, setNewFilm } = props
-    const [confirmValue, setConfirmValue] = useState(false);
+export default function FilmAddContent({
+    filmsData,
+    setFilmData,
+    closeToggle
+}) {
     const [errorMessage, setErrorMessage] = useState({});
-    const films = useSelector(state => state.films)
+    const [confirmValue, setConfirmValue] = useState(false);
+    const [value, setValue] = useState({});
 
     const closeModals = () => {
         closeToggle(); 
-        setConfirmValue(false)
-    }
-
-    const setNewValue = (array, valueId, changesValue) => {
-        const getChangedValueIndex = array.findIndex((item) => item.imdbID === valueId);
-        const newArr = array;
-        for(const [key, value] of Object.entries(changesValue) ){
-            newArr[getChangedValueIndex][key] = value;
-        }
     }
 
     const saveNewValue = () => {
-        setNewValue(films.filmsList, info.imdbID, confirmValue);
+        setFilmData([...filmsData, value])
         closeToggle()
     }
 
-    const handleSubmit = (value) => {
-        setConfirmValue(value);
+    const handleSubmit = (newFilm) => {
+        setValue(newFilm)
+        setConfirmValue(true)
     }
 
     return (
@@ -42,11 +36,12 @@ export default function FilmEditContent(props) {
             {!confirmValue ? (
                 <Formik
                     initialValues={{
-                        Title: info.Title,
-                        Year: info.Year,
-                        Runtime: info.Runtime,
-                        Genre: info.Genre,
-                        Director: info.Director,
+                        Poster: '',
+                        Title: '',
+                        Year: '',
+                        Runtime: '',
+                        Genre: '',
+                        Director: '',
                     }}
                     onSubmit={(values) => {
                         if(validation(values, arrKeys, setErrorMessage)){
@@ -54,8 +49,24 @@ export default function FilmEditContent(props) {
                         }
                     }}
                 >
+                    
                         <Form>
                             <Styled.FilmEditModalContainer>
+                                <Styled.FilmEditModalField>
+                                    <Styled.FilmEditModalFieldContent>
+                                        <Styled.StyledTitle>
+                                            Poster:
+                                        </Styled.StyledTitle>
+                                        <Field 
+                                            as={Input}
+                                            name="Poster"
+                                            type="text"
+                                        />
+                                    </Styled.FilmEditModalFieldContent>
+                                    <Styled.ErrorMessage>
+                                        {errorMessage.Poster}
+                                    </Styled.ErrorMessage>
+                                </Styled.FilmEditModalField>
                                 <Styled.FilmEditModalField>
                                     <Styled.FilmEditModalFieldContent>
                                         <Styled.StyledTitle>
@@ -124,7 +135,7 @@ export default function FilmEditContent(props) {
                                         </Styled.StyledTitle>
                                         <Field
                                             as={Input}
-                                            name="Director"
+                                            name="D irector"
                                             type="text"
                                         />
                                     </Styled.FilmEditModalFieldContent>
@@ -133,6 +144,7 @@ export default function FilmEditContent(props) {
                                     </Styled.ErrorMessage>
                                 </Styled.FilmEditModalField>
                                 <Styled.FilmEditModalButton>
+
                                     <AppButton type="submit">
                                         Confirm
                                     </AppButton>
@@ -147,10 +159,11 @@ export default function FilmEditContent(props) {
             ) 
             : 
             (
-             <FilmConfirm confirmAction={() => saveNewValue()} closeModal={() => closeModals()}>
-                Do you want to save changes?
-             </FilmConfirm>
+                <FilmConfirm confirmAction={() => saveNewValue()} closeModal={() => closeModals()}>
+                    Do you want to save changes?
+                </FilmConfirm>
             )}
         </>
     )
 }
+//  

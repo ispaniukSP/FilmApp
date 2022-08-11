@@ -5,7 +5,7 @@ import { setFilmsList } from './../../store/action/film/film.action';
 import { useDispatch, useSelector } from 'react-redux';
 import { imdbId } from './../Film/FilmArray';
 
-export default function HomePage() {
+export default function HomePage(props) {
     const dispatch = useDispatch();
     const films = useSelector(state => state.films)
 
@@ -19,12 +19,8 @@ export default function HomePage() {
         <Styled.HomeContentainer>
             {films.loader ? null :(
             <Styled.HomeContent>
-                <FilmList />
-                {/* <div>
-                    1 2 3 ... 20
-                </div> */}
+                <FilmList {...props} />
             </Styled.HomeContent>
-            
             )}
         </Styled.HomeContentainer>
     )

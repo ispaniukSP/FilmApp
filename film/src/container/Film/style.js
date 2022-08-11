@@ -152,3 +152,11 @@ export const ConfirmButtons = styled.div`
     display: flex;
     justify-content: space-between;
 `
+
+export const ErrorMessage = styled.div`
+    width: 100%;
+    margin-top: 10px;
+    font-size: 15px;
+    color: red;
+    text-align: center;
+`

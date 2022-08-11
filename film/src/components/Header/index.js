@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import * as Styled from "./style"
-import Input from './../Input/index';
 import Logo from "../../assets/images/logo_lion.png"
-import debounce from './../../utils/debounce';
+import AppButton from '../Button';
 
-export default function Header() {
-    const [userSearch, setUserSearch] = useState('');
-
-    const searchResult = debounce((e) => setUserSearch(e.target.value))
-
+export default function Header({
+    onChangeShow
+}) {
+    const showAddModal = () => {
+        onChangeShow(true)
+    }
     return (
         <Styled.HeaderContainer>
             <Styled.HeaderLogoContainer>
                 <Styled.HeaderLogo src={Logo} />
             </Styled.HeaderLogoContainer>
-            <Styled.InputContainer>
-                <Input
-                    onChange={searchResult}
-                />
-            </Styled.InputContainer>
+            <Styled.ButtonContainer>
+                <AppButton onClick={() => showAddModal()}>
+                    Add Movie
+                </AppButton>
+            </Styled.ButtonContainer>
         </Styled.HeaderContainer>
     )
 }

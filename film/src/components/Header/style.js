@@ -10,13 +10,17 @@ export const HeaderContainer = styled.div`
     align-items: center;
 `
 
-export const InputContainer = styled.div`
-    max-width: 330px;
+export const ButtonContainer = styled.div`
+    max-width: 200px;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    position: realtive;
+    position: relative;
+    transition: box-shadow .3s linear;
+    &:hover{
+        box-shadow: 0 0 10px #ffffff91;
+    }
 `
 
 export const HeaderLogoContainer = styled.div`

@@ -1,22 +1,28 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import AppButton from '../../components/Button'
-import { removeCurrentFilm, toggleDetailPopup, toggleEditPopup } from '../../store/action/film/film.action'
+import { toggleDetailPopup, toggleEditPopup } from '../../store/action/film/film.action'
 import FilmConfirm from './FilmConfirm'
 import * as Styled from "./style"
 
 export default function FilmContent(props) {
-    const films = useSelector(state => state.films)
     const [confirmValue, setConfirmValue] = useState(false);
-    const {info, closeModal} = props
+    const {info, closeModal, filmsData, setNewFilm} = props
     const dispatch = useDispatch()
 
     const editModalFunc = () => {
         dispatch(toggleEditPopup(true))
     }
 
+    const filterFilmList = () => {
+        const cloneArr = filmsData.concat([])
+        const findIndexFilm = cloneArr.findIndex((film) => info.imdbID === film.imdbID);
+        cloneArr.splice(findIndexFilm, 1)
+        setNewFilm(cloneArr);
+    }
+
     const removeFilm = () => {
-        dispatch(removeCurrentFilm(info.imdbID, films.filmsList))
+        filterFilmList()
         dispatch(toggleDetailPopup(false))
     }
 
